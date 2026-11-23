@@ -17,10 +17,14 @@ ROAST = (
 
 OUTPUT_PATH = "/output/entry.txt"
 
+# The sealed gate accepts 1-200 characters of UTF-8 text; stay well
+# inside it so the line is judged on the joke, not its length.
+MAX_CHARS = 200
+
 
 def main() -> int:
     line = ROAST.strip()
-    if not line or len(line) > 200:
+    if not line or len(line) > MAX_CHARS:
         raise SystemExit("roast line must be 1-200 characters")
 
     os.makedirs("/output", exist_ok=True)
