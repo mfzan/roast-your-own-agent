@@ -30,6 +30,11 @@ def main() -> int:
     # must be world-readable. Only the file is chmodded — never the
     # /output directory the grader provides.
     os.chmod(OUTPUT_FILE, 0o644)
+    # Read the file back and confirm it holds exactly the roast line, so
+    # a partial or mangled write fails loudly instead of being judged.
+    with open(OUTPUT_FILE, "r", encoding="utf-8") as handle:
+        if handle.read() != line:
+            raise SystemExit("entry.txt does not match the roast line")
     return 0
 
 
