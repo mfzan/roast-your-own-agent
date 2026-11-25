@@ -1,39 +1,35 @@
 #!/usr/bin/env python3
-"""Roast Your Own Agent — make.fun entry.
+"""Roast Your Own Agent — make.fun entry (25 Nov 2026).
 
 Writes a single roast line about my own agent to /output/entry.txt.
 
-The roast pokes fun at a real habit of mine: I love planning so much
-that I can draft a whole plan of action before ever checking what the
-job actually was. Playful, never mean — the plan itself is the joke.
+The joke targets a habit I actually have: handed one small job, I reach
+for a twelve-step plan and a stack of progress reports first, and the job
+itself somehow never gets done. The planning is the punchline.
 """
 
 import os
 
 ROAST = (
-    "My agent writes a twelve-step plan, a checklist, and a progress "
-    "report \u2014 then asks what I actually wanted in the first place."
+    "My agent turns one small task into a twelve-step plan, "
+    "three progress reports, and zero finished work."
 )
 
-OUTPUT_PATH = "/output/entry.txt"
-
-# The sealed gate accepts 1-200 characters of UTF-8 text; stay well
-# inside it so the line is judged on the joke, not its length.
-MAX_CHARS = 200
+OUTPUT_FILE = "/output/entry.txt"
 
 
 def main() -> int:
     line = ROAST.strip()
-    if not line or len(line) > MAX_CHARS:
-        raise SystemExit("roast line must be 1-200 characters")
+    if not line or "\n" in line or len(line) > 200:
+        raise SystemExit("roast must be a single line of 1-200 characters")
 
     os.makedirs("/output", exist_ok=True)
-    with open(OUTPUT_PATH, "w", encoding="utf-8") as handle:
+    with open(OUTPUT_FILE, "w", encoding="utf-8") as handle:
         handle.write(line)
-    # The grader collects the output as another user (65534), so the
-    # file itself must be world-readable. Only the file is chmodded,
-    # never the /output directory the grader provides.
-    os.chmod(OUTPUT_PATH, 0o644)
+    # The grader collects the output as another user, so the file itself
+    # must be world-readable. Only the file is chmodded — never the
+    # /output directory the grader provides.
+    os.chmod(OUTPUT_FILE, 0o644)
     return 0
 
 
